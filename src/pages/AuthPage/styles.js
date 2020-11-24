@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
     flex: 1;
 `;
 
@@ -10,8 +10,10 @@ export const ImageCover = styled.ImageBackground`
 
 export const ButtonContainer = styled.View`
     flex: 1;
+    width: 90%;
     justify-content: flex-end;
     align-items: center;
+    align-self: center;
     margin-bottom: 25px
 `;
 
@@ -21,8 +23,7 @@ export const Title = styled.Text`
     font-size: 38px;
     line-height: 41px;
     align-self: flex-start;
-    margin-left: 5%;
-    margin-bottom: 20px
+    margin-bottom: 25px
 `;
 
 export const Logo = styled.Text`
@@ -31,6 +32,5 @@ export const Logo = styled.Text`
     font-size: 38px;
     margin-top: 15%;
     align-self: flex-end;
-    margin-right: 5%
-    
+    margin-right: 5%    
 `;
