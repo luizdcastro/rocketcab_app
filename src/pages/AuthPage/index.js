@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StatusBar, Modal } from 'react-native'
+import { StatusBar, Modal, View } from 'react-native'
 
 import LoginModal from '../../components/LoginModal'
 import RegisterModal from '../../components/RegisterModal'
 import DarkButton from '../../components/DarkButton'
 import LightButton from '../../components/LightButton'
 import { Container, Logo, ImageCover, Title, ButtonContainer } from './styles'
+import * as Animatable from 'react-native-animatable';
 
 const AuthPage = ({ navigation }) => {
     const [loginModal, setLoginModal] = useState(false)
@@ -15,12 +16,18 @@ const AuthPage = ({ navigation }) => {
         <Container behavior={Platform.OS === "ios" ? "padding" : "height"} >
             <StatusBar barStyle='light-content' />
             <ImageCover source={require("../../assets/images/driver.png")}>
-                <Modal transparent={true} animationType='slide' visible={loginModal}>
-                    <LoginModal closeModal={() => setLoginModal(false)} />
-                </Modal>
-                <Modal transparent={true} animationType='slide' visible={registerModal}>
-                    <RegisterModal closeModal={() => setRegisterModal(false)} />
-                </Modal>
+                {loginModal ?
+                    <Animatable.View style={{ width: '100%', height: '100%', zIndex: 1 }} animation="slideInUp">
+                        <LoginModal setLoginModal={setLoginModal} setRegisterModal={setRegisterModal} />
+                    </Animatable.View>
+                    : null
+                }
+                {registerModal ?
+                    <Animatable.View style={{ width: '100%', height: '100%', zIndex: 1 }} animation="slideInUp">
+                        <RegisterModal closeModal={() => setRegisterModal(false)} />
+                    </Animatable.View>
+                    : null
+                }
                 <Logo></Logo>
                 <ButtonContainer>
                     <Title>Os melhores {"\n"}benefícios sem {"\n"}complexidades</Title>

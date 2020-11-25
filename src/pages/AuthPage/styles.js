@@ -34,3 +34,9 @@ export const Logo = styled.Text`
     align-self: flex-end;
     margin-right: 5%    
 `;
+
+export const CustomModal = styled.View`
+     width: 100%;
+     height: 100%; 
+     z-index: 1 
+`;

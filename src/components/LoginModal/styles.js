@@ -4,7 +4,7 @@ export const Container = styled.View`
     flex: 1;
 `;
 
-export const ModalContent = styled.KeyboardAvoidingView`
+export const ModalContent = styled.View`
     flex: 1;
     background-color: #FAFAFA;
     width: 100%;

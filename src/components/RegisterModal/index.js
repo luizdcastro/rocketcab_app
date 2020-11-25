@@ -31,7 +31,6 @@ const RegisterModal = ({ closeModal }) => {
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
 
-
     // data validation 
     const [verifyUserCpf, setVerifyUserCpf] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -43,7 +42,7 @@ const RegisterModal = ({ closeModal }) => {
     const [isNameDateFilled, setIsNameDateFilled] = useState(false)
     const [isEmailPhoneFilled, setIsEmailPhoneFilled] = useState(false)
 
-    // cpf format validdation
+    // cpf format validation
     const handleCpfInput = (text) => {
         if (cpf.isValid(text)) {
             setUserCpf(text);
@@ -53,9 +52,7 @@ const RegisterModal = ({ closeModal }) => {
         }
     };
 
-    console.log(dateIsValid)
-
-    // date formt validation
+    // date format validation
     useEffect(() => {
         if (date.length === 10) {
             const value = moment(date, "DD/MM/YYYY").isValid() &

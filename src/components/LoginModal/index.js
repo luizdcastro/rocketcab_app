@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Container, ModalContent, LoginContent, Title, InputContainer, PasswordInput, TextLink } from './styles'
 import { View, TouchableOpacity } from 'react-native'
+
 
 import { cpf } from "cpf-cnpj-validator";
 import { TextInputMask } from "react-native-masked-text";
@@ -10,7 +11,7 @@ import { EvilIcons } from '@expo/vector-icons';
 
 import KeyboardButton from '../../components/KeyboardButton'
 
-const LoginModal = ({ closeModal }) => {
+const LoginModal = ({ setRegisterModal, setLoginModal }) => {
     const [userCpf, setUserCpf] = useState('')
     const [verifyUserCpf, setVerifyUserCpf] = useState(false);
     const [isCpfFilled, setIsCpfFilled] = useState(false)
@@ -30,22 +31,21 @@ const LoginModal = ({ closeModal }) => {
         <Container>
             <ModalContent behavior={Platform.OS === "ios" ? "padding" : "height"} >
                 {!isCpfFilled ?
-                    <LoginContent>
+                    <LoginContent >
                         <View>
                             <AntDesign
                                 name="close"
                                 size={30}
                                 color="grey"
-                                onPress={closeModal}
+                                onPress={() => setLoginModal(false)}
                                 style={{ alignSelf: 'flex-start', marginLeft: '3%' }}
                             />
                             <Title>Para entrar, digite seu CPF</Title>
                             <TextInputMask
-                                blurOnSubmit={false}
                                 type={"cpf"}
-                                value={userCpf}
+                                blurOnSubmit={true}
                                 autoFocus={true}
-                                autoCorrect={false}
+                                value={userCpf}
                                 keyboardType="number-pad"
                                 onChangeText={(text) => {
                                     handleCpfInput(text);
@@ -54,14 +54,19 @@ const LoginModal = ({ closeModal }) => {
                                 style={{
                                     marginTop: '5%',
                                     marginLeft: '5%',
+                                    height: 45,
                                     fontFamily: 'NunitoSans_400Regular',
                                     fontSize: 24,
                                     color: !verifyUserCpf & userCpf.length >= 14 ? "#BA000D" : "#484848"
                                 }}
                             />
                         </View>
-                        <View>
-                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{}}>
+                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => {
+                                    setLoginModal(false);
+                                    setRegisterModal(true)
+                                }}>
                                 <TextLink>Ainda não tem conta? Começar</TextLink>
                                 <EvilIcons name="chevron-right" size={22} color="grey" style={{ alignSelf: 'flex-start', marginTop: 2, marginLeft: -5 }} />
                             </TouchableOpacity>
@@ -94,11 +99,10 @@ const LoginModal = ({ closeModal }) => {
                             <Title>Qual sua senha de acesso?</Title>
                             <InputContainer>
                                 <PasswordInput
-                                    blurOnSubmit={false}
                                     autoFocus={true}
+                                    blurOnSubmit={false}
                                     value={userPassword}
                                     keyboardType='number-pad'
-                                    max
                                     secureTextEntry={secureTextEntry}
                                     onChangeText={(val) => setUserPassword(val)}
                                 />
