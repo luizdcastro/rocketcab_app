@@ -45,6 +45,7 @@ const LoginModal = ({ closeModal }) => {
                                 type={"cpf"}
                                 value={userCpf}
                                 autoFocus={true}
+                                autoCorrect={false}
                                 keyboardType="number-pad"
                                 onChangeText={(text) => {
                                     handleCpfInput(text);
