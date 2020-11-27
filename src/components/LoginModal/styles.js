@@ -43,3 +43,10 @@ export const PasswordInput = styled.TextInput`
     font-family: 'NunitoSans_400Regular';
     color: #484848;                                   
 `;
+
+export const ErrorMessage = styled.Text`
+font-size: 15px;
+    font-family: 'NunitoSans_400Regular';
+    color: #BA000D;
+    margin: 0 0 5% 5%;
+`;

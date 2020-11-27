@@ -1,7 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Container, ModalContent, LoginContent, Title, InputContainer, PasswordInput, TextLink } from './styles'
-import { View, TouchableOpacity } from 'react-native'
-
+import React, { useState, useEffect } from 'react'
+import { connect } from "react-redux";
+import {
+    Container,
+    ModalContent,
+    LoginContent,
+    Title,
+    InputContainer,
+    PasswordInput,
+    TextLink,
+    ErrorMessage
+} from './styles'
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native'
 
 import { cpf } from "cpf-cnpj-validator";
 import { TextInputMask } from "react-native-masked-text";
@@ -9,14 +18,19 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 
+import { loginUser } from '../../redux/actions/authActions'
 import KeyboardButton from '../../components/KeyboardButton'
 
-const LoginModal = ({ setRegisterModal, setLoginModal }) => {
-    const [userCpf, setUserCpf] = useState('')
+const LoginModal = ({ setRegisterModal, setLoginModal, dispatchLoginAction }) => {
+    const [userCpf, setUserCpf] = useState("")
     const [verifyUserCpf, setVerifyUserCpf] = useState(false);
     const [isCpfFilled, setIsCpfFilled] = useState(false)
     const [userPassword, setUserPassword] = useState("");
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("")
+    const [loading, setLoading] = useState(false);
+
 
     const handleCpfInput = (text) => {
         if (cpf.isValid(text)) {
@@ -26,6 +40,26 @@ const LoginModal = ({ setRegisterModal, setLoginModal }) => {
             setVerifyUserCpf(false);
         }
     };
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        setLoading(true);
+        dispatchLoginAction(
+            userCpf,
+            userPassword,
+            (response) => { setError(false) },
+            (response) => {
+                setError(true);
+                setErrorMessage(response.error.status)
+            }
+        );
+    };
+
+    useEffect(() => {
+        if (error) {
+            setLoading(false)
+        }
+    }, [error, loading])
 
     return (
         <Container>
@@ -113,6 +147,10 @@ const LoginModal = ({ setRegisterModal, setLoginModal }) => {
                             </InputContainer>
                         </View>
                         <View>
+                            {error ?
+                                <ErrorMessage>{errorMessage}</ErrorMessage>
+                                : null
+                            }
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TextLink>Esqueci minha senha</TextLink>
                                 <EvilIcons name="chevron-right" size={22} color="grey" style={{ alignSelf: 'flex-start', marginTop: 2, marginLeft: -5 }} />
@@ -123,14 +161,22 @@ const LoginModal = ({ setRegisterModal, setLoginModal }) => {
                                     textColor="grey"
                                     borderColor="grey"
                                 />
-                                :
-                                <KeyboardButton
-                                    name="Entrar"
-                                    textColor="#523BE4"
-                                    borderColor="grey"
-                                />
+                                : userPassword.length >= 6 & !loading ?
+                                    <KeyboardButton
+                                        onPress={handleLogin}
+                                        name="Entrar"
+                                        textColor="#523BE4"
+                                        borderColor="grey"
+                                    />
+                                    : userPassword.length >= 6 & loading ?
+                                        <KeyboardButton
+                                            onPress={handleLogin}
+                                            textColor="#523BE4"
+                                            borderColor="grey"
+                                            children={<ActivityIndicator style={{ paddingBottom: 10 }} size="large" color="#523BE4" animating={loading} />}
+                                        />
+                                        : null
                             }
-
                         </View>
                     </LoginContent>
                 }
@@ -139,4 +185,9 @@ const LoginModal = ({ setRegisterModal, setLoginModal }) => {
     )
 }
 
-export default LoginModal
+const mapDispatchToProps = (dispatch) => ({
+    dispatchLoginAction: (cpf, password, onSuccess, onError) =>
+        dispatch(loginUser({ cpf, password }, onSuccess, onError)),
+});
+
+export default connect(null, mapDispatchToProps)(LoginModal)

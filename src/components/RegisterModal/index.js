@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from "react-redux";
 import {
     Container,
     ModalContent,
@@ -10,7 +11,7 @@ import {
     EmailInput,
     ErrorMessage,
 } from './styles'
-import { View } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 
 import moment from "moment"
 import { cpf } from "cpf-cnpj-validator";
@@ -18,16 +19,17 @@ import { TextInputMask } from "react-native-masked-text";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { registerUser } from '../../redux/actions/authActions'
 import KeyboardButton from '../../components/KeyboardButton'
 
-const RegisterModal = ({ closeModal }) => {
+const RegisterModal = ({ closeModal, dispatchRegisterAction }) => {
 
     // user registration data
     const [userCpf, setUserCpf] = useState("")
     const [userPassword, setUserPassword] = useState("");
     const [userConfirmPassword, setUserConfirmPassword] = useState("")
     const [name, setName] = useState("")
-    const [date, setDate] = useState("")
+    const [birthdayDate, setBirthdayDate] = useState("")
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
 
@@ -35,6 +37,9 @@ const RegisterModal = ({ closeModal }) => {
     const [verifyUserCpf, setVerifyUserCpf] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [dateIsValid, setDateIsValid] = useState(true)
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("")
+    const [loading, setLoading] = useState(false);
 
     // form filled verification
     const [isCpfFilled, setIsCpfFilled] = useState(false)
@@ -54,13 +59,39 @@ const RegisterModal = ({ closeModal }) => {
 
     // date format validation
     useEffect(() => {
-        if (date.length === 10) {
-            const value = moment(date, "DD/MM/YYYY").isValid() &
-                Number(date.split('/')[2]) < 2020 &
-                Number(date.split('/')[2]) > 1850
+        if (birthdayDate.length === 10) {
+            const value = moment(birthdayDate, "DD/MM/YYYY").isValid() &
+                Number(birthdayDate.split('/')[2]) < 2020 &
+                Number(birthdayDate.split('/')[2]) > 1850
             setDateIsValid(value)
         }
-    }, [date, dateIsValid])
+    }, [birthdayDate, dateIsValid])
+
+    const handleRegister = (event) => {
+        event.preventDefault();
+        setLoading(true);
+        dispatchRegisterAction(
+            userCpf,
+            name,
+            birthdayDate,
+            email,
+            phone,
+            userPassword,
+            userConfirmPassword,
+            (response) => { console.log(response); setError(false) },
+            (response) => {
+                console.log(response)
+                setError(true);
+                setErrorMessage(response.error.status)
+            }
+        );
+    };
+
+    useEffect(() => {
+        if (error) {
+            setLoading(false)
+        }
+    }, [error, loading])
 
     return (
         <Container>
@@ -216,27 +247,27 @@ const RegisterModal = ({ closeModal }) => {
                                     options={{
                                         format: "DD/MM/YYYY",
                                     }}
-                                    value={date}
-                                    onChangeText={(value) => setDate(value)}
+                                    value={birthdayDate}
+                                    onChangeText={(value) => setBirthdayDate(value)}
                                     blurOnSubmit={false}
                                     style={{
                                         marginTop: '5%',
                                         fontFamily: 'NunitoSans_400Regular',
                                         fontSize: 22,
                                         width: '75%',
-                                        color: !dateIsValid & date.length === 10 ? "#BA000D" : "#484848"
+                                        color: !dateIsValid & birthdayDate.length === 10 ? "#BA000D" : "#484848"
                                     }}
                                 />
                             </InputContainer>
                         </View>
                         <View>
-                            {name.length < 3 & date.length >= 1 ?
+                            {name.length < 3 & birthdayDate.length >= 1 ?
                                 <ErrorMessage>O nome informado é inváliddo</ErrorMessage>
-                                : !dateIsValid & date.length === 10 & name.length >= 3 ?
+                                : !dateIsValid & birthdayDate.length === 10 & name.length >= 3 ?
                                     <ErrorMessage>A data informada está incorreta</ErrorMessage>
                                     : null
                             }
-                            {dateIsValid & date.length === 10 & name.length >= 3 ?
+                            {dateIsValid & birthdayDate.length === 10 & name.length >= 3 ?
                                 <KeyboardButton
                                     name="Continuar"
                                     textColor="#523BE4"
@@ -298,23 +329,35 @@ const RegisterModal = ({ closeModal }) => {
                             </InputContainer>
                         </View>
                         <View>
+                            {error ?
+                                <ErrorMessage>{errorMessage}</ErrorMessage>
+                                : null
+                            }
                             {phone.length >= 2 & (!email.includes("@") || !email.includes(".") || !email.length > 8) ?
                                 <ErrorMessage>O email informado é inválido</ErrorMessage>
                                 : null
                             }
-                            {email.includes("@") & email.includes(".") & email.length > 8 & (phone.length >= 14) ?
+                            {!loading & email.includes("@") & email.includes(".") & email.length > 8 & (phone.length >= 14) ?
                                 <KeyboardButton
                                     name="Cadastrar"
                                     textColor="#523BE4"
                                     borderColor="grey"
-                                    onPress={() => setIsNameDateFilled(true)}
+                                    onPress={handleRegister}
                                 />
-                                :
-                                <KeyboardButton
-                                    name="Cadastrar"
-                                    textColor="grey"
-                                    borderColor="grey"
-                                />
+
+                                : loading & email.includes("@") & email.includes(".") & email.length > 8 & (phone.length >= 14) ?
+                                    <KeyboardButton
+                                        onPress={handleRegister}
+                                        textColor="#523BE4"
+                                        borderColor="grey"
+                                        children={<ActivityIndicator style={{ paddingBottom: 10 }} size="large" color="#523BE4" animating={loading} />}
+                                    />
+                                    :
+                                    <KeyboardButton
+                                        name="Cadastrar"
+                                        textColor="grey"
+                                        borderColor="grey"
+                                    />
                             }
                         </View>
 
@@ -326,4 +369,10 @@ const RegisterModal = ({ closeModal }) => {
     )
 }
 
-export default RegisterModal
+const mapDispatchToProps = (dispatch) => ({
+    dispatchRegisterAction: (cpf, name, birthdayDate, email, phone, password, passwordConfirm, onSuccess, onError) =>
+        dispatch(registerUser({ cpf, name, birthdayDate, email, phone, password, passwordConfirm }, onSuccess, onError)),
+});
+
+
+export default connect(null, mapDispatchToProps)(RegisterModal)

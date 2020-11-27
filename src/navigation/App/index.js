@@ -1,8 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { ThemeProvider } from 'styled-components'
 
 import AuthStack from "../AuthStack";
+import MainStack from '../MainStack'
+import DrawerContent from '../../components/DrawerContent'
 
 import {
     useFonts,
@@ -17,7 +21,10 @@ import {
 
 import { AppLoading } from "expo";
 
-const App = () => {
+const AppStack = createStackNavigator();
+
+
+const App = ({ auth }) => {
     let [fontsLoaded] = useFonts({
         NunitoSans_200ExtraLight,
         NunitoSans_300Light,
@@ -39,11 +46,20 @@ const App = () => {
         return (
             <NavigationContainer>
                 <ThemeProvider theme={theme}>
-                    <AuthStack />
+                    {!auth.isLoggedIn ?
+                        < AuthStack />
+                        :
+                        <MainStack />
+                    }
                 </ThemeProvider>
             </NavigationContainer>
         );
     }
 };
 
-export default App;
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps)(App);
