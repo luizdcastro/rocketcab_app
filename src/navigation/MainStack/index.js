@@ -23,9 +23,8 @@ const HomePageStack = () => (
 const MainStackPage = ({ navigation }) => (
     <Tab.Navigator headerMode='screen'
         screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
+            tabBarIcon: ({ color, size, focused }) => {
                 let iconName;
-
                 switch (route.name) {
                     case 'Home':
                         iconName = 'home';
@@ -44,8 +43,7 @@ const MainStackPage = ({ navigation }) => (
                         iconName = 'circle';
                         break;
                 }
-
-                return <Icon name={iconName} size={size} color={color} />;
+                return <Icon name={iconName} size={focused ? 28 : size} color={color} />;
             },
         })}
         tabBarOptions={{
@@ -59,10 +57,10 @@ const MainStackPage = ({ navigation }) => (
         <Tab.Screen name="Cupons" component={CupomPage} />
         <Tab.Screen name="Search" component={SearchPage}
             options={() => ({
-                tabBarIcon: ({ tintColor }) => (
+                tabBarIcon: ({ tintColor, focused }) => (
                     <View>
                         <LinearGradient style={styles.iconTabRound} start={{ x: 0, y: 1 }} end={{ x: 0, y: 0 }} colors={['#523BE4', '#6978EA']}>
-                            <Icon name="search" size={26} color='#FFF' />
+                            <Icon name="search" size={focused ? 30 : 26} color='#FFF' />
                         </LinearGradient>
                     </View>
                 ),
