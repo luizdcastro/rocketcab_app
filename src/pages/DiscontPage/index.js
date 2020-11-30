@@ -2,21 +2,20 @@ import React from 'react'
 import { Container } from './styles'
 import { ScrollView } from 'react-native'
 
-import PartnerCard from '../../components/PartnerCard'
+import DiscontCard from '../../components/DiscontCard'
 
-const FavoritePage = () => {
+const DiscontPage = () => {
     return (
         <Container>
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 10 }}>
-                <PartnerCard buttonTitle="Detalhes" />
-                <PartnerCard buttonTitle="Detalhes" />
+                <DiscontCard buttonTitle="Utilizar" />
             </ScrollView>
         </Container>
     )
 }
 
 export const pageOptions = {
-    headerTitle: 'Meus Favoritos',
+    headerTitle: 'Meus Descontos',
     headerTitleStyle: {
         fontFamily: 'NunitoSans_700Bold',
         color: 'grey',
@@ -28,4 +27,4 @@ export const pageOptions = {
     },
 }
 
-export default FavoritePage
+export default DiscontPage

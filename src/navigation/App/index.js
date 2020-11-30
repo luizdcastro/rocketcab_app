@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { ThemeProvider } from 'styled-components'
 
 import AuthStack from "../AuthStack";
 import MainStack from '../MainStack'
-import DrawerContent from '../../components/DrawerContent'
 
 import {
     useFonts,
@@ -20,9 +18,6 @@ import {
 } from '@expo-google-fonts/nunito-sans'
 
 import { AppLoading } from "expo";
-
-const AppStack = createStackNavigator();
-
 
 const App = ({ auth }) => {
     let [fontsLoaded] = useFonts({

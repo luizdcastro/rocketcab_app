@@ -4,17 +4,16 @@ import { View, TouchableOpacity, Text, Image, Dimensions, StyleSheet } from 'rea
 const { width, height } = Dimensions.get('window')
 
 
-const DiscontCard = ({ buttonTitle }) => {
+const PartnerCard = ({ buttonTitle }) => {
     return (
         <TouchableOpacity style={styles.container}>
-            <Image style={styles.image} source={{ uri: 'https://image.freepik.com/free-vector/bokeh-lights-effect-dark-background_23-2148436855.jpg' }} />
+            <Image style={styles.image} source={{ uri: 'https://image.freepik.com/free-vector/colorful-gradient-background-with-bokeh-effect_23-2148358216.jpg' }} />
             <View style={styles.mainContent}>
-                <Text style={styles.title}>Troca de óleo</Text>
-                <Text style={styles.subtitle}>Posto Ipiranga</Text>
-                <Text style={styles.bottomText}>Seg, Ter, Qui - 08:00 às 18:00</Text>
+                <Text style={styles.title}>Posto Ipiranga</Text>
+                <Text style={styles.subtitle}>Postos</Text>
+                <Text style={styles.bottomText}>Av. Silva Jardim, 1275</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
-                <Text style={styles.discontText}>15%</Text>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>{buttonTitle}</Text>
                 </View>
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         shadowColor: "#000",
-        shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 0.5,
@@ -49,8 +47,8 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     mainContent: {
-        marginLeft: 10,
-        flex: 3,
+        flex: 2,
+        marginLeft: 10
     },
     title: {
         fontFamily: 'NunitoSans_600SemiBold',
@@ -80,4 +78,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DiscontCard
+export default PartnerCard

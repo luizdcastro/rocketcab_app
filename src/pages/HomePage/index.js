@@ -9,6 +9,7 @@ import { data } from "../../components/CarouselItem/data";
 
 import CategoryCard from '../../components/CategoryCard'
 import DiscontCard from '../../components/DiscontCard'
+import PartnerCard from '../../components/PartnerCard'
 import SvgPosto from '../../assets/svg/posto'
 import SvgLocadora from '../../assets/svg/locadora'
 import SvgSeguro from '../../assets/svg/seguro'
@@ -20,7 +21,6 @@ import SvgRestaurante from '../../assets/svg/restaurante'
 const { width, height } = Dimensions.get('window')
 
 const HomePage = () => {
-
     const renderItem = item => (
         <TouchableOpacity style={styles.carouselCard} key={item.id}>
             <ImageCarousel width={width - 20} source={{ uri: item.url }} />
@@ -46,48 +46,61 @@ const HomePage = () => {
                     <CategoryCard title="Manutenção" backgroundColor="#6978EA" children={<SvgManutenção />} />
                     <CategoryCard title="Restaurantes" backgroundColor="#fddd5c" style={{ marginRight: 0 }} children={<SvgRestaurante />} />
                 </ScrollView>
-                <Title>Mehlores Descontos</Title>
+                <Title>Descontos em Destaque</Title>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginHorizontal: 10 }}>
                     <View style={{ marginBottom: 3, marginRight: 10 }}>
-                        <DiscontCard />
-                        <DiscontCard />
-                        <DiscontCard />
+                        <DiscontCard buttonTitle="Abrir" />
+                        <DiscontCard buttonTitle="Abrir" />
+                        <DiscontCard buttonTitle="Abrir" />
                     </View>
                     <View style={{ marginBottom: 3 }}>
-                        <DiscontCard />
-                        <DiscontCard />
-                        <DiscontCard />
+                        <DiscontCard buttonTitle="Abrir" />
+                        <DiscontCard buttonTitle="Abrir" />
+                        <DiscontCard buttonTitle="Abrir" />
                     </View>
                 </ScrollView>
                 <Title>Parceiros em Destaque</Title>
-
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginHorizontal: 10 }}>
+                    <View style={{ marginBottom: 3, marginRight: 10 }}>
+                        <PartnerCard buttonTitle="Detalhes" />
+                        <PartnerCard buttonTitle="Detalhes" />
+                        <PartnerCard buttonTitle="Detalhes" />
+                    </View>
+                    <View style={{ marginBottom: 3, marginRight: 10 }}>
+                        <PartnerCard buttonTitle="Detalhes" />
+                        <PartnerCard buttonTitle="Detalhes" />
+                        <PartnerCard buttonTitle="Detalhes" />
+                    </View>
+                </ScrollView>
             </ScrollView>
         </Container>
     )
 }
 
-export const pageOptions = {
-    headerTitle: 'Olá, Luiz',
-    headerTitleStyle: {
-        fontFamily: 'NunitoSans_700Bold',
-        color: 'grey',
-    },
-    headerTitleAlign: 'center',
-    headerBackTitleVisible: false,
-    headerStyle: {
-        height: 75,
-    },
-    headerLeft: () => (
-        <HeaderLeft>
-            <HeaderTitle>Curitiba, PR</HeaderTitle>
-            <Feather name="chevron-down" size={23} color="grey" style={{ marginLeft: 4, paddingRight: 5 }} />
-        </HeaderLeft>
-    ),
-    headerRight: () => (
-        <TouchableOpacity style={{ paddingRight: 10 }}>
-            <Feather name="bell" size={22} color="grey" style={{ marginLeft: 5 }} />
-        </TouchableOpacity>
-    )
+export const pageOptions = ({ navigation }) => {
+    return {
+        headerTitle: '',
+        headerTitleStyle: {
+            fontFamily: 'NunitoSans_700Bold',
+            color: 'grey',
+        },
+        headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        headerStyle: {
+            height: 75,
+        },
+        headerLeft: () => (
+            <HeaderLeft>
+                <HeaderTitle>Curitiba, PR</HeaderTitle>
+                <Feather name="chevron-down" size={23} color="grey" style={{ marginLeft: 4, paddingRight: 5 }} />
+            </HeaderLeft>
+        ),
+        headerRight: () => (
+            <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => navigation.navigate('SettingPage')}>
+                <Feather name="settings" size={22} color="grey" style={{ marginLeft: 5 }} />
+            </TouchableOpacity>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

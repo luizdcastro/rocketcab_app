@@ -6,22 +6,43 @@ import Icon from 'react-native-vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import HomePage, { pageOptions as HomePageOptions } from "../../pages/HomePage";
-import ProfilePage from '../../pages/ProfilePage'
 import SearchPage from '../../pages/SearchPage'
-import CupomPage from '../../pages/CupomPage'
-import FavoritePage from '../../pages/FavoritePage'
+import DiscontPage, { pageOptions as DiscontPageOptions } from '../../pages/DiscontPage'
+import FavoritePage, { pageOptions as FavoritePageOptions } from '../../pages/FavoritePage'
+import NotificationPage, { pageOptions as NotificationPageOptions } from '../../pages/NotificationPage'
+import SettingPage, { pageOptions as SettingPageOptions } from '../../pages/SettingPage'
+import ProfilePage from '../../pages/ProfilePage'
+
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 
 const HomePageStack = () => (
-    <MainStack.Navigator headerMode='screen'>
+    <MainStack.Navigator headerMode='screen' >
         <MainStack.Screen name="HomePage" component={HomePage} options={HomePageOptions} />
+    </MainStack.Navigator>
+)
+
+const DiscontPageStack = () => (
+    <MainStack.Navigator headerMode='screen'>
+        <MainStack.Screen name="DiscontPage" component={DiscontPage} options={DiscontPageOptions} />
     </MainStack.Navigator>
 );
 
-const MainStackPage = ({ navigation }) => (
-    <Tab.Navigator headerMode='screen'
+const FavoritePageStack = () => (
+    <MainStack.Navigator headerMode='screen'>
+        <MainStack.Screen name="FavoritePage" component={FavoritePage} options={FavoritePageOptions} />
+    </MainStack.Navigator>
+);
+
+const NotificationPageStack = () => (
+    <MainStack.Navigator headerMode='screen'>
+        <MainStack.Screen name="NotificationPage" component={NotificationPage} options={NotificationPageOptions} />
+    </MainStack.Navigator>
+);
+
+const BottomStackPage = ({ navigation }) => (
+    <Tab.Navigator
         screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size, focused }) => {
                 let iconName;
@@ -29,15 +50,14 @@ const MainStackPage = ({ navigation }) => (
                     case 'Home':
                         iconName = 'home';
                         break;
-                    case 'Cupons':
+                    case 'Discontos':
                         iconName = 'shopping-bag';
                         break;
-
                     case 'Favoritos':
                         iconName = 'heart';
                         break;
-                    case 'Perfil':
-                        iconName = 'user';
+                    case 'Notificações':
+                        iconName = 'bell';
                         break;
                     default:
                         iconName = 'circle';
@@ -54,7 +74,7 @@ const MainStackPage = ({ navigation }) => (
         }}
     >
         <Tab.Screen name="Home" component={HomePageStack} />
-        <Tab.Screen name="Cupons" component={CupomPage} />
+        <Tab.Screen name="Discontos" component={DiscontPageStack} />
         <Tab.Screen name="Search" component={SearchPage}
             options={() => ({
                 tabBarIcon: ({ tintColor, focused }) => (
@@ -66,9 +86,17 @@ const MainStackPage = ({ navigation }) => (
                 ),
             })}
         />
-        <Tab.Screen name="Favoritos" component={FavoritePage} />
-        <Tab.Screen name="Perfil" component={ProfilePage} />
+        <Tab.Screen name="Favoritos" component={FavoritePageStack} />
+        <Tab.Screen name="Notificações" component={NotificationPageStack} />
     </Tab.Navigator>
+)
+
+const MainStackPage = ({ navigation }) => (
+    <MainStack.Navigator>
+        <MainStack.Screen name="BottomStackPage" component={BottomStackPage} options={{ headerShown: false }} />
+        <MainStack.Screen name="SettingPage" component={SettingPage} options={SettingPageOptions} />
+        <MainStack.Screen name="ProfilePage" component={ProfilePage} />
+    </MainStack.Navigator>
 );
 
 const styles = StyleSheet.create({

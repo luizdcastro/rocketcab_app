@@ -5,7 +5,7 @@ export const Container = styled.View`
     height: 70px;
     align-items: center;
     border-radius: 5px;
-    margin-right: 10px;
+    margin-right: 8px;
 `;
 
 export const CategoryIcon = styled.TouchableOpacity`
