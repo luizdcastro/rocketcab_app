@@ -11,6 +11,7 @@ import DiscontPage, { pageOptions as DiscontPageOptions } from '../../pages/Disc
 import FavoritePage, { pageOptions as FavoritePageOptions } from '../../pages/FavoritePage'
 import NotificationPage, { pageOptions as NotificationPageOptions } from '../../pages/NotificationPage'
 import SettingPage, { pageOptions as SettingPageOptions } from '../../pages/SettingPage'
+import DiscontDetailsPage, { pageOptions as DiscontDetailsOptions } from '../../pages/DiscontDetailsPage'
 import ProfilePage from '../../pages/ProfilePage'
 
 
@@ -95,6 +96,7 @@ const MainStackPage = ({ navigation }) => (
     <MainStack.Navigator>
         <MainStack.Screen name="BottomStackPage" component={BottomStackPage} options={{ headerShown: false }} />
         <MainStack.Screen name="SettingPage" component={SettingPage} options={SettingPageOptions} />
+        <MainStack.Screen name="DiscontDetailsPage" component={DiscontDetailsPage} options={{ headerShown: false }} />
         <MainStack.Screen name="ProfilePage" component={ProfilePage} />
     </MainStack.Navigator>
 );

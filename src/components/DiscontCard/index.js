@@ -4,9 +4,9 @@ import { View, TouchableOpacity, Text, Image, Dimensions, StyleSheet } from 'rea
 const { width, height } = Dimensions.get('window')
 
 
-const DiscontCard = ({ buttonTitle }) => {
+const DiscontCard = ({ buttonTitle, onPress }) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <Image style={styles.image} source={{ uri: 'https://image.freepik.com/free-vector/bokeh-lights-effect-dark-background_23-2148436855.jpg' }} />
             <View style={styles.mainContent}>
                 <Text style={styles.title}>Troca de óleo</Text>

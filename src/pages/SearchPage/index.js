@@ -28,7 +28,7 @@ import { data } from "../../components/CarouselItem/data";
 
 const { width, height } = Dimensions.get('window')
 
-const SearchPage = () => {
+const SearchPage = ({ navigation }) => {
     const [search, setSearch] = useState('')
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
     const [modalCidade, setModalCidade] = useState(false)

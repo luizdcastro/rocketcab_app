@@ -20,7 +20,7 @@ import SvgRestaurante from '../../assets/svg/restaurante'
 
 const { width, height } = Dimensions.get('window')
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
     const renderItem = item => (
         <TouchableOpacity style={styles.carouselCard} key={item.id}>
             <ImageCarousel width={width - 20} source={{ uri: item.url }} />
@@ -49,7 +49,7 @@ const HomePage = () => {
                 <Title>Descontos em Destaque</Title>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginHorizontal: 10 }}>
                     <View style={{ marginBottom: 3, marginRight: 10 }}>
-                        <DiscontCard buttonTitle="Abrir" />
+                        <DiscontCard buttonTitle="Abrir" onPress={() => navigation.navigate('DiscontDetailsPage')} />
                         <DiscontCard buttonTitle="Abrir" />
                         <DiscontCard buttonTitle="Abrir" />
                     </View>

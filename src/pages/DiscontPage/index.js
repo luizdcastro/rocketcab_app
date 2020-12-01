@@ -4,11 +4,11 @@ import { ScrollView } from 'react-native'
 
 import DiscontCard from '../../components/DiscontCard'
 
-const DiscontPage = () => {
+const DiscontPage = ({ navigation }) => {
     return (
         <Container>
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 10 }}>
-                <DiscontCard buttonTitle="Utilizar" />
+                <DiscontCard buttonTitle="Utilizar" onPress={() => navigation.navigate('DiscontDetailsPage')} />
             </ScrollView>
         </Container>
     )
